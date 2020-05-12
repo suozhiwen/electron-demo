@@ -9,6 +9,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
+
 let win
 let newwin
 
@@ -49,7 +50,7 @@ function createWindow () {
   //   // Load the index.html when not in development
   //   newwin.loadURL('./src/view/About.vue')
   // }
-  newwin.loadURL('http://localhost:8081/about')
+  newwin.loadURL('http://192.168.1.104:7000/about')
   newwin.on('closed', () => {
     newwin = null
   })
@@ -107,3 +108,5 @@ if (isDevelopment) {
     })
   }
 }
+
+
