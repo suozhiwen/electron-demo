@@ -131,9 +131,10 @@ export default {
     readWriteFileXML() {
       let info = fs.readFileSync(fileXmlPath);
       //xml解析器
-      const xmlParser = new xml2js.Parser();
-      xmlParser.parseString(info, {llicitArray : false, ignoreAttrs : true},function(err, result) {
+      const xmlParser = new xml2js.Parser({ explicitArray: false });
+      xmlParser.parseString(info, function(err, result) {
         console.log(result);
+        result.CATALOG.PLANT[0].AVAILABILITY = "11111111";
 
         // /var strings = result.resources;
         //console.log(strings[0]._);
@@ -141,18 +142,39 @@ export default {
         const resultInfo = JSON.stringify(result.CATALOG);
         //console.log(resultInfo);
         const aa = result.CATALOG;
-
         console.log(aa.PLANT);
-        if (aa.PLANT.length > 0) {
-          //console.log(11111);
-          aa.PLANT.forEach(element => {
-            //console.log(element);
-            let key = Object.keys(element);
-            console.log(key)
-             let values = Object.values(element);
-            console.log(values)
-          });
-        }
+
+        //清空文件中的值
+        fs.writeFile(
+          fileXmlPath,
+          "",
+          { flag: "w", encoding: "utf-8", mode: "0666" },
+          function(err) {
+            if (err) {
+              console.log("文件写入1失败");
+            } else {
+              console.log("文件写入成功");
+            }
+          }
+        );
+
+        //JSON转xml
+        var builder = new xml2js.Builder();
+        var xml = builder.buildObject(result);
+
+        //写入新的数据
+        fs.writeFile(
+          fileXmlPath,
+          xml,
+          { flag: "a", encoding: "utf-8", mode: "0666" },
+          function(err) {
+            if (err) {
+              console.log("文件写入2失败");
+            } else {
+              console.log("文件追加成功");
+            }
+          }
+        );
       });
     }
   }
