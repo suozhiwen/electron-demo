@@ -1,5 +1,6 @@
 <template>
   <div class="about">
+     <el-button type="success" @click="goHome" round>返回上一页</el-button>
     <h1>This is an about page</h1>
     <button @click="showModalHandler">父子模态窗口</button>
     <button @click="openFileHandler">打开文件目录</button>
@@ -22,6 +23,9 @@ const fileXmlPath = "G:\\nodeElectron\\newXml.xml";
 const path = "G:\\nodeElectron";
 export default {
   methods: {
+    goHome(){
+       this.$router.replace('/')
+    },
     showModalHandler() {
       ipcRenderer.send("child-down-modal");
     },
